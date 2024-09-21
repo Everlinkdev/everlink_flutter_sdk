@@ -2,10 +2,15 @@ package com.example.everlink_sdk
 
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -13,6 +18,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import com.everlink.broadcast.Everlink
+import com.everlink.broadcast.exceptions.EverlinkError
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -83,77 +89,66 @@ class MypluginPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandl
         setUpEverlinkClass(appID)
       }
     } else if (call.method == "startDetecting") {
-      if(everlinkClassSet){
+
         everlink.startDetecting() //request permissions here
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
-      }
+
+
     } else if (call.method == "stopDetecting") {
-      if(everlinkClassSet){
+
         everlink.stopDetecting()
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
-      }
+
     } else if (call.method == "createNewToken") {
-      if(everlinkClassSet){
+      try {
         val startDate = call.argument<String>("start_date")
         everlink.createNewToken(startDate)
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
+      } catch (err: EverlinkError) {
+        result.error(err.code.toString(), err.message.toString(), "Everlink error")
       }
 
     } else if (call.method == "saveTokens") {
-      if(everlinkClassSet){
+
         val tokens = call.argument<List<String>>("tokens")
         if(tokens != null) {
           everlink.saveSounds(tokens.toTypedArray())
         }
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
-      }
+
     } else if (call.method == "clearTokens") {
 
-      if(everlinkClassSet){
+
         everlink.clearSounds()
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
-      }
+
 
     } else if (call.method == "startEmitting") {
 
-      if(everlinkClassSet){
+      try {
         everlink.startEmitting()
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
+      } catch (err: EverlinkError) {
+        result.error(err.code.toString(), err.message.toString(), "Everlink error")
       }
 
     } else if (call.method == "startEmittingToken") {
 
-      if(everlinkClassSet){
+      try {
         val token = call.argument<String>("token")
         everlink.startEmittingToken(token)
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
+      } catch (err: EverlinkError) {
+        result.error(err.code.toString(), err.message.toString(), "Everlink error")
       }
 
     } else if (call.method == "stopEmitting") {
-      if(everlinkClassSet){
+
         everlink.stopEmitting()
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
-      }
+
 
     } else if (call.method == "playVolume") {
 
-      if(everlinkClassSet){
+
         val volume = call.argument<Double>("volume")
         val speaker = call.argument<Boolean>("loudSpeaker")
         if (volume != null && speaker != null) {
           everlink.playVolume(volume, speaker)
         }
-      } else {
-        result.error("1", "Everlink class not set up", "Everlink class not set up")
-      }
+
 
     } else {
       result.notImplemented()
@@ -170,6 +165,15 @@ class MypluginPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandl
 
   override fun onCancel(arguments: Any?) {
     eventSink = null
+  }
+
+
+  private fun startDetecting() {
+    try {
+      everlink.startDetecting()
+    } catch (err: EverlinkError) {
+
+    }
   }
 
 
