@@ -35,7 +35,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.everlink_sdk
+        package: com.everlink.everlink_sdk
         pluginClass: EverlinkSdkPlugin
 
   # To add assets to your plugin package, add an assets section, like this:

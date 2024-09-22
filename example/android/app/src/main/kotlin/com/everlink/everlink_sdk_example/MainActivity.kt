@@ -1,4 +1,4 @@
-package com.example.everlink_sdk_example
+package com.everlink.everlink_sdk_example
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,4 @@
-package com.example.everlink_sdk
+package com.everlink.everlink_sdk
 
 
 import android.content.Context

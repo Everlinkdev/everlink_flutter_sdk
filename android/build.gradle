@@ -1,4 +1,4 @@
-group = "com.example.everlink_sdk"
+group = "com.everlink.everlink_sdk"
 version = "1.0-SNAPSHOT"
 
 buildscript {
@@ -29,7 +29,7 @@ apply plugin: "kotlin-android"
 
 android {
     if (project.android.hasProperty("namespace")) {
-        namespace = "com.example.everlink_sdk"
+        namespace = "com.everlink.everlink_sdk"
     }
 
     compileSdk = 34

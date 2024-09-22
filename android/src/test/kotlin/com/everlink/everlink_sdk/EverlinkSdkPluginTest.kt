@@ -1,5 +1,6 @@
 package com.example.everlink_sdk
 
+import com.everlink.everlink_sdk.EverlinkSdkPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import kotlin.test.Test
