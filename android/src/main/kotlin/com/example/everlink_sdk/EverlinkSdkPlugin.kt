@@ -3,12 +3,6 @@ package com.example.everlink_sdk
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -22,9 +16,10 @@ import com.everlink.broadcast.exceptions.EverlinkError
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.flutter.plugin.common.PluginRegistry
 
-/** MypluginPlugin */
-class MypluginPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware {
+/** EverlinkSdkPlugin */
+class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware, PluginRegistry.RequestPermissionsResultListener{
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -36,6 +31,8 @@ class MypluginPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandl
   private lateinit var context : Context
   private lateinit var activity: FlutterActivity
   private var everlinkClassSet: Boolean = false
+  private val myPermissionCode = 802
+  private var permissionGranted: Boolean = false
 
   //todo add everlink class, set app id, set listeners, ask for permissions, hook up functions
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -48,18 +45,20 @@ class MypluginPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandl
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
     activity = binding.getActivity() as FlutterActivity
+    binding.addRequestPermissionsResultListener(this)
   }
 
   override fun onDetachedFromActivity() {
-    TODO("Not yet implemented")
+
   }
 
   override fun onDetachedFromActivityForConfigChanges() {
-    TODO("Not yet implemented")
+
   }
 
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
     activity = binding.getActivity() as FlutterActivity
+    binding.addRequestPermissionsResultListener(this)
   }
 
   private fun setUpEverlinkClass(appID: String) {
@@ -174,6 +173,34 @@ class MypluginPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandl
     } catch (err: EverlinkError) {
 
     }
+  }
+
+  private fun checkPermission() {
+    permissionGranted = ContextCompat.checkSelfPermission(context,
+      android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+    if ( !permissionGranted ) {
+      ActivityCompat.requestPermissions(activity,
+        arrayOf(android.Manifest.permission.RECORD_AUDIO), myPermissionCode )
+    }
+    else {
+      startDetecting()
+    }
+  }
+  override fun onRequestPermissionsResult(
+    requestCode: Int,
+    permissions: Array<out String>,
+    grantResults: IntArray
+  ): Boolean {
+    when (requestCode) {
+      myPermissionCode -> {
+        permissionGranted = grantResults.isNotEmpty() &&
+                grantResults.get(0) == PackageManager.PERMISSION_GRANTED
+        startDetecting()
+        return true
+      }
+    }
+    return false
+  }
   }
 
 
