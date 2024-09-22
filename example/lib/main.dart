@@ -25,13 +25,13 @@ class MainApp extends State<MyApp>  {
     setEvents();
   }
 
-    final everlinkSdk = EverlinkSdk("test");
+    final everlinkSdk = EverlinkSdk("testAppID");
 
     Future<void> everlinkStartDetecting() async {
       everlinkSdk.startDetecting();
     }
     Future<void> everlinkStopDetecting() async {
-      everlinkSdk.startDetecting();
+      everlinkSdk.stopDetecting();
     }
     Future<void> everlinkNewToken(String date) async {
       everlinkSdk.newToken(date);
@@ -55,7 +55,7 @@ class MainApp extends State<MyApp>  {
       everlinkSdk.playVolume(volume, loudSpeaker);
     }
 
-static const eventChannel = EventChannel('myplugin_event');
+static const eventChannel = EventChannel('everlink_sdk_event');
 
 
   void setEvents() { 
@@ -78,7 +78,7 @@ static const eventChannel = EventChannel('myplugin_event');
   // No specified type, handles all
   print('Something really unknown: $e');
 }
-      print("*****Event repeat from native******: $event");
+      print("*****Event from native******: $event");
     }, onError: (dynamic error) {
       print("Error: $error");
     });
@@ -119,7 +119,7 @@ static const eventChannel = EventChannel('myplugin_event');
           ),
            ElevatedButton(
             onPressed: () {
-              const tokensList = [ 'token', 'token' ];
+              const tokensList = [ 'evpan1d9d38808c0dc626543920c58e9d903c', 'evpan9823a9bbe65b0ff54968d4638a55e352' ];
               everlinSaveTokens(tokensList);
 
             },
@@ -139,7 +139,7 @@ static const eventChannel = EventChannel('myplugin_event');
           ),
             ElevatedButton(
             onPressed: () {
-              const token = "token";
+              const token = "evpan9823a9bbe65b0ff54968d4638a55e352";
               everlinkStartEmittingToken(token);
             },
             child: const Text('Start Emitting Token'),

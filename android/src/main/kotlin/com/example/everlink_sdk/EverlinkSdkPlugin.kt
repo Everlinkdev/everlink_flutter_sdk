@@ -19,7 +19,7 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.PluginRegistry
 
 /** EverlinkSdkPlugin */
-class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware, PluginRegistry.RequestPermissionsResultListener{
+class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware, PluginRegistry.RequestPermissionsResultListener {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -36,9 +36,9 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
 
   //todo add everlink class, set app id, set listeners, ask for permissions, hook up functions
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "myplugin")
+    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "everlink_sdk")
     channel.setMethodCallHandler(this)
-    eventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "myplugin_event")
+    eventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "everlink_sdk_event")
     eventChannel.setStreamHandler(this)
     context = flutterPluginBinding.applicationContext
   }
@@ -65,17 +65,22 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
     if(!everlinkClassSet) {
       everlinkClassSet = true;
       everlink = Everlink(context, activity, appID)
+      everlink.playVolume(0.8, true)
       everlink.setAudioListener(object : Everlink.audioListener {
         override fun onAudiocodeReceived(token: String) {
           val jsonDataString = "{\"token\":${token}}"
           val jsonString = "{msg_type:detection, data:\":${jsonDataString}}"
-          eventSink?.success(jsonString)
+          activity.runOnUiThread {
+            eventSink?.success(jsonString)
+          }
         }
 
         override fun onMyTokenGenerated(oldToken: String, newToken: String) {
           val jsonDataString = "{\"oldToken\":${oldToken}, \"newToken\":${newToken}}"
           val jsonString = "{msg_type:detection, data:\":${jsonDataString}}"
-          eventSink?.success(jsonString)
+          activity.runOnUiThread {
+            eventSink?.success(jsonString)
+          }
         }
       })
     }
@@ -89,7 +94,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
       }
     } else if (call.method == "startDetecting") {
 
-        everlink.startDetecting() //request permissions here
+      checkPermission() //request permissions here
 
 
     } else if (call.method == "stopDetecting") {
@@ -204,4 +209,3 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
   }
 
 
-}

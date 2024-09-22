@@ -9,8 +9,6 @@ class EverlinkSdk {
 
 static const methodChannel = MethodChannel('everlink_sdk');
 
-static const eventChannel = EventChannel('everlink_sdk_event');
-
 EverlinkSdk(String appID) {
   _setupEverlink(appID); 
 }
