@@ -62,8 +62,8 @@ static const eventChannel = EventChannel('everlink_sdk_event');
     eventChannel.receiveBroadcastStream().listen((dynamic event) {
       try {
       final parsedJson = jsonDecode(event.toString());
-      var msgType = parsedJson['msg_type'].toString();
-      var data = parsedJson['data'];
+      var msgType = parsedJson['msg_type'];
+     // var data = parsedJson['data'];
 
       switch (msgType) {
         case 'newToken':
@@ -72,13 +72,13 @@ static const eventChannel = EventChannel('everlink_sdk_event');
         default:
       }
       } on Exception catch (e) {
-  // Anything else that is an exception
   print('Unknown exception: $e');
 } catch (e) {
   // No specified type, handles all
   print('Something really unknown: $e');
 }
-      print("*****Event from native******: $event");
+      print("*****Event from native****** $event");
+      print(jsonDecode(jsonEncode(event.toString())));
     }, onError: (dynamic error) {
       print("Error: $error");
     });

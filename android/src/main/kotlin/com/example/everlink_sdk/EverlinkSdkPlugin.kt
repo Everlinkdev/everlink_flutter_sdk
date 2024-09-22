@@ -65,19 +65,19 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
     if(!everlinkClassSet) {
       everlinkClassSet = true;
       everlink = Everlink(context, activity, appID)
-      everlink.playVolume(0.8, true)
+     // everlink.playVolume(0.8, true)
       everlink.setAudioListener(object : Everlink.audioListener {
         override fun onAudiocodeReceived(token: String) {
-          val jsonDataString = "{\"token\":${token}}"
-          val jsonString = "{msg_type:detection, data:\":${jsonDataString}}"
+          val jsonDataString = "{\"token\":\"${token}\"}"
+          val jsonString = "{ \"msg_type\":\"detection\", \"data\":${jsonDataString} }"
           activity.runOnUiThread {
             eventSink?.success(jsonString)
           }
         }
 
         override fun onMyTokenGenerated(oldToken: String, newToken: String) {
-          val jsonDataString = "{\"oldToken\":${oldToken}, \"newToken\":${newToken}}"
-          val jsonString = "{msg_type:detection, data:\":${jsonDataString}}"
+          val jsonDataString = "{\"old_token\": \"${oldToken}\", \"new_token\": \"${newToken}\"}"
+          val jsonString = "{ \"msg_type\":\"generated_token\", \"data\":${jsonDataString} }"
           activity.runOnUiThread {
             eventSink?.success(jsonString)
           }

@@ -117,7 +117,6 @@ EverlinkSdk(String appID) {
 
   Future<void> playVolume(double volume, bool loudSpeaker) async {  
   String printString;
-
   try {
     await methodChannel.invokeMethod<void>('playVolume', {"volume":volume, "loudSpeaker":loudSpeaker});
     printString = 'Everlink changed play volume.';
