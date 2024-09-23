@@ -77,8 +77,8 @@ class MainApp extends State<MyApp> {
             var newToken = data['new_token'];
             break;
           case 'detection':
-            //send token to function
             var detectedToken = data['token'];
+            doSomethingWithDetectedToken(detectedToken);
           default:
         }
       } on Exception catch (e) {
@@ -98,14 +98,24 @@ class MainApp extends State<MyApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
+          backgroundColor: const Color.fromRGBO(38, 40, 74, 1.0),
           appBar: AppBar(
-            backgroundColor: Colors.green,
-            title: const Text('Test'),
+            backgroundColor: const Color.fromRGBO(38, 40, 74, 1.0),
+            title: const Text('Everlink Plugin',
+                style: TextStyle(
+                  color: Colors.white,
+                )),
           ),
           body: Column(
             children: [
-              const Text('Everlink Plugin'),
+              const Text('Example project usiing Everlink plugin',
+                  style: TextStyle(
+                    color: Colors.white,
+                  )),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(255, 107, 107, 1.0),
+                ),
                 onPressed: () {
                   everlinkStartDetecting();
                 },
@@ -171,4 +181,6 @@ class MainApp extends State<MyApp> {
           ),
         ));
   }
+
+  void doSomethingWithDetectedToken(String token) {}
 }

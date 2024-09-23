@@ -39,7 +39,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 
   ```dart
   static const eventChannel = EventChannel('everlink_sdk_event');
-  ...
+  // Other codes...
       eventChannel.receiveBroadcastStream().listen((dynamic event) {
       try {
         final parsedJson = jsonDecode(event.toString());
