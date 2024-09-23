@@ -108,7 +108,7 @@ class MainApp extends State<MyApp> {
           ),
           body: Column(
             children: [
-              const Text('Example project usiing Everlink plugin',
+              const Text('Example project using Everlink plugin',
                   style: TextStyle(
                     color: Colors.white,
                   )),
