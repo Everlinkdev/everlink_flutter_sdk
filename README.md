@@ -39,7 +39,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 
   ```dart
   static const eventChannel = EventChannel('everlink_sdk_event');
-  ...
+  // Other codes...
       eventChannel.receiveBroadcastStream().listen((dynamic event) {
       try {
         final parsedJson = jsonDecode(event.toString());
@@ -79,7 +79,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
   }
   ```
   
-  *Note users will be prompted to grant microphone permission*
+  *Note users will be prompted to grant microphone permission.*
 
   On successful detection we will return the identifying token of the heard device via the **everlink_sdk_event** EventChannel broadcast stream.
 
@@ -124,7 +124,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 
 - Create token
 
-  If you wish to manually generate a new user token *Otherwise one will be automatically generated.*
+  If you wish to manually generate a new user token. *Otherwise one will be automatically generated.*
 
   ```dart
   Future<void> everlinkNewToken(String date) async {
