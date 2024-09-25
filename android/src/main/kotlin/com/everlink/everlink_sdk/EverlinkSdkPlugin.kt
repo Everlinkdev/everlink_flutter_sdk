@@ -1,6 +1,5 @@
 package com.everlink.everlink_sdk
 
-
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
@@ -104,10 +103,9 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
     if(!everlinkClassSet) {
       everlinkClassSet = true;
       everlink = Everlink(context, activity, appID) // Initialize Everlink with context and appID
-     // everlink.playVolume(0.8, true)
+      everlink.playVolume(0.8, true)
       everlink.setAudioListener(object : Everlink.audioListener {
         override fun onAudiocodeReceived(token: String) {
-          //TODO: Convert to a data class with GSON Annotations once there are multiple fields
           val jsonDataString = "{\"token\":\"${token}\"}"
           val jsonString = "{ \"msg_type\":\"detection\", \"data\":${jsonDataString} }"
           activity.runOnUiThread { // Send the event back to Flutter on the UI thread
@@ -117,7 +115,6 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
 
         // Callback when a new token is generated
         override fun onMyTokenGenerated(oldToken: String, newToken: String) {
-          //TODO: Convert to a data class with GSON Annotations once there are multiple fields
           val jsonDataString = "{\"old_token\": \"${oldToken}\", \"new_token\": \"${newToken}\"}"
           val jsonString = "{ \"msg_type\":\"generated_token\", \"data\":${jsonDataString} }"
           activity.runOnUiThread { // Send the event back to Flutter on the UI thread

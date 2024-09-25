@@ -38,7 +38,7 @@ class EverlinkSdk {
       await methodChannel.invokeMethod<void>(setupMethodKey, {appIDKey: appID});
       printString = 'Everlink plugin successfully setup.';
     } on PlatformException catch (e) {
-      printString = "Everlink plugin unable to be setup: '${e.message}'.";
+      printString = "Everlink plugin unable to be setup.: '${e.message}'.";
     }
     log(printString);
   }
@@ -49,7 +49,7 @@ class EverlinkSdk {
       await methodChannel.invokeMethod<void>(startDetectingMethodKey);
       printString = 'Everlink started detecting.';
     } on PlatformException catch (e) {
-      printString = "Everlink unable to start detecting: '${e.message}'.";
+      printString = "Everlink unable to start detecting.: '${e.message}'.";
     }
     log(printString);
   }
@@ -60,7 +60,7 @@ class EverlinkSdk {
       await methodChannel.invokeMethod<void>(stopDetectingMethodKey);
       printString = 'Everlink stopped detecting.';
     } on PlatformException catch (e) {
-      printString = "Everlink unable to stop detecting: '${e.message}'.";
+      printString = "Everlink unable to stop detecting.: '${e.message}'.";
     }
     log(printString);
   }
@@ -68,10 +68,11 @@ class EverlinkSdk {
   Future<void> newToken(String date) async {
     String printString;
     try {
-      await methodChannel.invokeMethod<void>(createNewTokenMethodKey, {startDateKey: date});
+      await methodChannel
+          .invokeMethod<void>(createNewTokenMethodKey, {startDateKey: date});
       printString = 'Everlink created new token.';
     } on PlatformException catch (e) {
-      printString = "Everlink unable to create new token: '${e.message}'.";
+      printString = "Everlink unable to create new token.: '${e.message}'.";
     }
     log(printString);
   }
@@ -80,10 +81,11 @@ class EverlinkSdk {
     String printString;
 
     try {
-      await methodChannel.invokeMethod<void>(saveTokenMethodKey, {tokensKey: tokens});
+      await methodChannel
+          .invokeMethod<void>(saveTokenMethodKey, {tokensKey: tokens});
       printString = 'Everlink saved tokens array.';
     } on PlatformException catch (e) {
-      printString = "Everlink unable to save tokens array: '${e.message}'.";
+      printString = "Everlink unable to save tokens array.: '${e.message}'.";
     }
     log(printString);
   }
@@ -114,7 +116,8 @@ class EverlinkSdk {
     String printString;
 
     try {
-      await methodChannel.invokeMethod<void>(startEmittingTokenMethodKey, {tokenKey: token});
+      await methodChannel
+          .invokeMethod<void>(startEmittingTokenMethodKey, {tokenKey: token});
       printString = 'Everlink started emitting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
@@ -136,8 +139,8 @@ class EverlinkSdk {
   Future<void> playVolume(double volume, bool loudSpeaker) async {
     String printString;
     try {
-      await methodChannel.invokeMethod<void>(
-          playVolumeMethodKey, {volumeKey: volume, loudSpeakerKey: loudSpeaker});
+      await methodChannel.invokeMethod<void>(playVolumeMethodKey,
+          {volumeKey: volume, loudSpeakerKey: loudSpeaker});
       printString = 'Everlink changed play volume.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to change play volume.: '${e.message}'.";

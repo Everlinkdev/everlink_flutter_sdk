@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'dart:developer';
 import 'package:everlink_sdk/everlink_sdk.dart';
 
+//Small demo showing how to use the Everlink SDK.
 void main() {
   runApp(const MaterialApp(
     home: MyApp(),
@@ -19,7 +20,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   static const eventChannel = EventChannel(everlinkSdkEventKey);
   final _everlinkSdk = EverlinkSdk(appIdKey);
 
@@ -185,6 +185,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+//Here you can use the returned token to verify this user
   void doSomethingWithDetectedToken(String token) {
     // Change Background Color
     setState(
