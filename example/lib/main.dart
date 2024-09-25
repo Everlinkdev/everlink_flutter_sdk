@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-
+import 'dart:developer';
 import 'package:everlink_sdk/everlink_sdk.dart';
 
 void main() {
@@ -19,8 +19,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static const eventChannel = EventChannel('everlink_sdk_event');
-  final _everlinkSdk = EverlinkSdk("testAppID");
+
+  static const eventChannel = EventChannel(everlinkSdkEventKey);
+  final _everlinkSdk = EverlinkSdk(appIdKey);
 
   // Colors
   Color _currentBackgroundColor = const Color.fromRGBO(38, 40, 74, 1.0);
@@ -39,29 +40,29 @@ class _MyAppState extends State<MyApp> {
     eventChannel.receiveBroadcastStream().listen((dynamic event) {
       try {
         final parsedJson = jsonDecode(event.toString());
-        var msgType = parsedJson['msg_type'];
-        var data = parsedJson['data'];
+        var msgType = parsedJson[msgTypeKey];
+        var data = parsedJson[dataKey];
 
         switch (msgType) {
           case 'generated_token':
             //extract both and send to function
-            var oldToken = data['old_token'];
-            var newToken = data['new_token'];
+            var oldToken = data[oldTokenKey];
+            var newToken = data[newTokenKey];
             break;
           case 'detection':
-            var detectedToken = data['token'];
+            var detectedToken = data[tokenKey];
             doSomethingWithDetectedToken(detectedToken);
           default:
         }
       } on Exception catch (e) {
-        debugPrint('Unknown exception: $e');
+        log('Unknown exception: $e');
       } catch (e) {
         // No specified type, handles all
-        debugPrint('Something really unknown: $e');
+        log('Something really unknown: $e');
       }
       //  print("event from native code $event");
     }, onError: (dynamic error) {
-      debugPrint("Error: $error");
+      log("Error: $error");
     });
   }
 
@@ -74,7 +75,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> _everlinkNewToken(String date) async =>
       await _everlinkSdk.newToken(date);
 
-  Future<void> _everlinSaveTokens(List<String> tokens) async =>
+  Future<void> _everlinkSaveTokens(List<String> tokens) async =>
       await _everlinkSdk.saveTokens(tokens);
 
   Future<void> _everlinkClearTokens() async => await _everlinkSdk.clearTokens();
@@ -146,7 +147,7 @@ class _MyAppState extends State<MyApp> {
                         'evpan1d9d38808c0dc626543920c58e9d903c',
                         'evpan9823a9bbe65b0ff54968d4638a55e352'
                       ];
-                      await _everlinSaveTokens(tokensList);
+                      await _everlinkSaveTokens(tokensList);
                     }),
                 TriggerButton(
                     buttonColor: _buttonColor,
@@ -185,7 +186,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void doSomethingWithDetectedToken(String token) {
-    // Change Backgorund Color
+    // Change Background Color
     setState(
       () => _currentBackgroundColor = _doSomethingBackgroundColor,
     );
@@ -204,7 +205,7 @@ class _MyAppState extends State<MyApp> {
         return AlertDialog(
           backgroundColor: _doSomethingBackgroundColor,
           title: const Text(
-            'User Detechted!',
+            'User Detected!',
             style: TextStyle(
               fontSize: 24,
             ),
@@ -222,7 +223,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-// A Seperate Widget Class for similar set of Elevated Buttons
+// A Separate Widget Class for similar set of Elevated Buttons
 class TriggerButton extends StatelessWidget {
   const TriggerButton(
       {super.key,
@@ -254,3 +255,12 @@ class TriggerButton extends StatelessWidget {
     );
   }
 }
+
+// Key Constants
+const everlinkSdkEventKey = 'everlink_sdk_event';
+const appIdKey = "testAppID";
+const msgTypeKey = 'msg_type';
+const dataKey = 'data';
+const tokenKey = 'token';
+const oldTokenKey = 'old_token';
+const newTokenKey = 'new_token';
