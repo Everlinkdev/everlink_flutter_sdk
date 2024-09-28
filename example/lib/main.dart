@@ -75,6 +75,13 @@ class _MyAppState extends State<MyApp> {
       await _everlinkSdk.playVolume(volume, loudSpeaker);
 
   @override
+  void dispose() {
+    // Dispose the EverlinkSdk instance to release resources
+    _everlinkSdk.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _currentBackgroundColor,
