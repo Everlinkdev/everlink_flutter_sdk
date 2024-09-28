@@ -1,9 +1,9 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
 import 'dart:developer';
+
 import 'package:everlink_sdk/everlink_sdk.dart';
+import 'package:everlink_sdk/everlink_sdk_event.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -19,12 +19,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  static const eventChannel = EventChannel(everlinkSdkEventKey);
   final _everlinkSdk = EverlinkSdk(appIdKey);
 
   // Colors
   Color _currentBackgroundColor = const Color.fromRGBO(38, 40, 74, 1.0);
+
   // Constant Colors for Background
   final _buttonColor = const Color.fromRGBO(255, 107, 107, 1.0);
   final _doSomethingBackgroundColor = const Color.fromRGBO(7, 250, 52, 1.0);
@@ -33,36 +32,19 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _setEvents();
+    _listenToSdkEvents();
   }
 
-  void _setEvents() {
-    eventChannel.receiveBroadcastStream().listen((dynamic event) {
-      try {
-        final parsedJson = jsonDecode(event.toString());
-        var msgType = parsedJson[msgTypeKey];
-        var data = parsedJson[dataKey];
-
-        switch (msgType) {
-          case 'generated_token':
-            //extract both and send to function
-            var oldToken = data[oldTokenKey];
-            var newToken = data[newTokenKey];
-            break;
-          case 'detection':
-            var detectedToken = data[tokenKey];
-            doSomethingWithDetectedToken(detectedToken);
-          default:
-        }
-      } on Exception catch (e) {
-        log('Unknown exception: $e');
-      } catch (e) {
-        // No specified type, handles all
-        log('Something really unknown: $e');
+  void _listenToSdkEvents() {
+    _everlinkSdk.onEvent.listen((event) {
+      if (event is GeneratedTokenEvent) {
+        log('Generated token: Old - ${event.oldToken}, New - ${event.newToken}');
+        // Handle generated token
+      } else if (event is DetectionEvent) {
+        doSomethingWithDetectedToken(event.detectedToken);
       }
-      //  print("event from native code $event");
-    }, onError: (dynamic error) {
-      log("Error: $error");
+    }, onError: (error) {
+      log('Error receiving SDK event: $error');
     });
   }
 
@@ -230,6 +212,7 @@ class TriggerButton extends StatelessWidget {
       required this.buttonColor,
       required this.onPressed,
       required this.title});
+
   final Color buttonColor;
   final void Function() onPressed;
   final String title;
@@ -255,12 +238,3 @@ class TriggerButton extends StatelessWidget {
     );
   }
 }
-
-// Key Constants
-const everlinkSdkEventKey = 'everlink_sdk_event';
-const appIdKey = "testAppID";
-const msgTypeKey = 'msg_type';
-const dataKey = 'data';
-const tokenKey = 'token';
-const oldTokenKey = 'old_token';
-const newTokenKey = 'new_token';
