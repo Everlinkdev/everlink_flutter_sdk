@@ -55,7 +55,7 @@ android {
     dependencies {
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
-        implementation ("com.everlink:broadcast:3.0.0-A1@aar")
+        implementation ("com.everlink:broadcast:3.0.1")
         implementation("org.apache.commons:commons-math3:3.6.1")
     }
 

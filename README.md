@@ -38,35 +38,25 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 - Set up event listener
 
   ```dart
-  static const eventChannel = EventChannel('everlink_sdk_event');
-  // Other codes...
-      eventChannel.receiveBroadcastStream().listen((dynamic event) {
-      try {
-        final parsedJson = jsonDecode(event.toString());
-        var msgType = parsedJson['msg_type'];
-        var data = parsedJson['data'];
+  @override
+  void initState() {
+    super.initState();
+    _listenToSdkEvents();
+  }
 
-        switch (msgType) {
-          case 'generated_token':
-            //a new token generated, to save in your database
-            var oldToken = data['old_token'];
-            var newToken = data['new_token'];
-            break;
-          case 'detection':
-            //you can now identify via the returned token what location/device was heard
-            var detectedToken = data['token'];
-          default:
-        }
-      } on Exception catch (e) {
-        print('Unknown exception: $e');
-      } catch (e) {
-        // No specified type, handles all
-        print('Something really unknown: $e');
+  void _listenToSdkEvents() {
+    _everlinkSdk.onEvent.listen((event) {
+      if (event is GeneratedTokenEvent) {
+        log('Generated token: Old - ${event.oldToken}, New - ${event.newToken}');
+        //a new token generated, to save in your database
+      } else if (event is DetectionEvent) {
+        doSomethingWithDetectedToken(event.detectedToken);
+        //you can now identify via the returned token what location/device was heard
       }
-      //  print("event from native code $event");
-    }, onError: (dynamic error) {
-      print("Error: $error");
+    }, onError: (error) {
+      log('Error receiving SDK event: $error');
     });
+  }
   ```
 
 - Detect code

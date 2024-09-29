@@ -69,7 +69,6 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
   private var permissionGranted: Boolean = false
 
   // Method to set up channels when the plugin is attached to the Flutter engine
-  //todo add everlink class, set app id, set listeners, ask for permissions, hook up functions
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, everlinkSdkKey)
     channel.setMethodCallHandler(this) // Set method call handler
@@ -188,7 +187,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
           val volume = call.argument<Double>(volumeKey)
           val speaker = call.argument<Boolean>(loudSpeakerKey)
           if (volume != null && speaker != null) {
-            everlink.playVolume(volume, speaker) // Play volume on loudspeaker
+            everlink.playVolume(volume, speaker) // Play volume, loudspeaker
           }
         }
 

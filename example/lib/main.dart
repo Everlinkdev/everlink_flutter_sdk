@@ -20,8 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  final _everlinkSdk = EverlinkSdk(appIdKey);
+  final _everlinkSdk = EverlinkSdk("FlutterTestKey");
 
   // Colors
   Color _currentBackgroundColor = const Color.fromRGBO(38, 40, 74, 1.0);
@@ -41,9 +40,10 @@ class _MyAppState extends State<MyApp> {
     _everlinkSdk.onEvent.listen((event) {
       if (event is GeneratedTokenEvent) {
         log('Generated token: Old - ${event.oldToken}, New - ${event.newToken}');
-        // Handle generated token
+        //a new token generated, to save in your database
       } else if (event is DetectionEvent) {
         doSomethingWithDetectedToken(event.detectedToken);
+        //you can now identify via the returned token what location/device was heard
       }
     }, onError: (error) {
       log('Error receiving SDK event: $error');
@@ -127,7 +127,7 @@ class _MyAppState extends State<MyApp> {
                     buttonColor: _buttonColor,
                     title: 'New Token',
                     onPressed: () async {
-                      const date = "2024";
+                      const date = "";
                       await _everlinkNewToken(date);
                     }),
                 TriggerButton(
@@ -135,8 +135,8 @@ class _MyAppState extends State<MyApp> {
                     title: 'Save Tokens',
                     onPressed: () async {
                       const tokensList = [
-                        'evpan1d9d38808c0dc626543920c58e9d903c',
-                        'evpan9823a9bbe65b0ff54968d4638a55e352'
+                        'evpan28ee914a2e49cb88f76ee5f9aef16e7d',
+                        'evpancbc1baf08ffe134c60384fc35589c376'
                       ];
                       await _everlinkSaveTokens(tokensList);
                     }),
@@ -152,7 +152,7 @@ class _MyAppState extends State<MyApp> {
                     buttonColor: _buttonColor,
                     title: 'Start Emitting Token',
                     onPressed: () async {
-                      const token = "evpan9823a9bbe65b0ff54968d4638a55e352";
+                      const token = "evpan28ee914a2e49cb88f76ee5f9aef16e7d";
                       await _everlinkStartEmittingToken(token);
                     }),
                 TriggerButton(
@@ -164,7 +164,7 @@ class _MyAppState extends State<MyApp> {
                     buttonColor: _buttonColor,
                     title: 'Play Volume',
                     onPressed: () async {
-                      const volume = 0.9;
+                      const volume = 0.8;
                       const useLoudSpeaker = true;
                       await _everlinkPlayVolume(volume, useLoudSpeaker);
                     }),

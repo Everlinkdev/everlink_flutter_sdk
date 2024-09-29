@@ -1,6 +1,6 @@
 name: everlink_sdk
-description: "The Everlink SDK for Flutter, token verification using ultrasound, allows apps developed using Flutter to use Everlink’s native SDKs to enable proximity verification."
-version: 0.0.1-a1
+description: "The Everlink SDK for Flutter, token verification using ultrasound, allows apps developed using Flutter to use Everlink native SDKs to enable proximity verification."
+version: 1.0.0
 homepage: https://everlink.co
 repository: https://github.com/Everlinkdev/everlink_flutter_sdk
 
