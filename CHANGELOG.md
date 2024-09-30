@@ -13,9 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Everlink Android event listeners 
 - Example demo calliing the plugin's functions
 
-## 1.0.0-beta - 2024-09-29
+## 0.1.0-beta - 2024-09-29
 
 ### Changed 
 - Using a Stream instead of exposing EventChannel for SDK event handling
 - README.md example guide changed to reflect above change
 - Everlink Android SDK 3.0.1  
+
+## 1.0.0-beta - 2024-09-30
+
+### Changed 
+- Everlink Android SDK 3.0.2 
+- Headphone override bug fix
