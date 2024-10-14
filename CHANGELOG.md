@@ -23,5 +23,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 1.0.0-beta - 2024-09-30
 
 ### Changed 
-- Everlink Android SDK 3.0.2 
+- Moved to Everlink Android SDK 3.0.2 
+
+### Fixed
 - Headphone override bug fix
+
+## 1.0.0 - 2024-10-13
+
+### Changed 
+- Moved to Everlink Android SDK 3.0.3 
+- Updated README.md

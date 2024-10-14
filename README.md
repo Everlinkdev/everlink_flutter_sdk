@@ -73,7 +73,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
   
   *Note users will be prompted to grant microphone permission.*
 
-  On successful detection we will return the identifying token of the detected device via the **everlink_sdk_event** EventChannel broadcast stream.
+  On successful detection we will return the identifying token of the detected device via the **everlink_sdk_event** EventChannel broadcast stream. You will need to call startDetecting() again to detect another audiocode.
 
   ‍You can now search your database or locally using the returned Everlink unique identifying token to find the detected user. 
   
