@@ -33,3 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed 
 - Moved to Everlink Android SDK 3.0.3 
 - Updated README.md
+
+## 1.0.1 - 2024-11-05
+
+### Changed 
+- Using Everlink Android SDK 3.0.4 
