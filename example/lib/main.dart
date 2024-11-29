@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _everlinkSdk = EverlinkSdk("FlutterTestKey");
+  final _everlinkSdk = EverlinkSdk("Your-Key");
 
   // Colors
   Color _currentBackgroundColor = const Color.fromRGBO(38, 40, 74, 1.0);
@@ -135,8 +135,8 @@ class _MyAppState extends State<MyApp> {
                     title: 'Save Tokens',
                     onPressed: () async {
                       const tokensList = [
-                        'evpan28ee914a2e49cb88f76ee5f9aef16e7d',
-                        'evpancbc1baf08ffe134c60384fc35589c376'
+                        'evpan3a4acb898c7e63a45cf5bc9843ab4024',
+                        'evpande0de7baa8689e6c36f74ef2bf55d15e'
                       ];
                       await _everlinkSaveTokens(tokensList);
                     }),
@@ -152,7 +152,7 @@ class _MyAppState extends State<MyApp> {
                     buttonColor: _buttonColor,
                     title: 'Start Emitting Token',
                     onPressed: () async {
-                      const token = "evpan28ee914a2e49cb88f76ee5f9aef16e7d";
+                      const token = "evpande0de7baa8689e6c36f74ef2bf55d15e";
                       await _everlinkStartEmittingToken(token);
                     }),
                 TriggerButton(

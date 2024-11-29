@@ -20,13 +20,15 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
         }
     }
     ```
+  *Sync project if required*
 
 ## Usage
 
-- Import `everlink_sdk.dart`
+- Import `everlink_sdk.dart` and `everlink_sdk_event.dart`
        
    ```dart
    import 'package:everlink_sdk/everlink_sdk.dart';
+   import 'package:everlink_sdk/everlink_sdk_event.dart';
    ```
 
 - Initialize EverlinkSdk class passing it your **appID key**
@@ -45,7 +47,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
   }
 
   void _listenToSdkEvents() {
-    _everlinkSdk.onEvent.listen((event) {
+    everlinkSdk.onEvent.listen((event) {
       if (event is GeneratedTokenEvent) {
         log('Generated token: Old - ${event.oldToken}, New - ${event.newToken}');
         //a new token generated, to save in your database
@@ -62,18 +64,20 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 - Detect code
   ```dart
   Future<void> everlinkStartDetecting() async {
-  everlinkSdk.startDetecting();
+      await everlinkSdk.startDetecting();
   }
   Future<void> everlinkStopDetecting() async {
-  everlinkSdk.stopDetecting();
+      await everlinkSdk.stopDetecting();
   }
   ```
   
   *Note users will be prompted to grant microphone permission.*
 
-  On successful detection we will return the identifying token of the heard device via the **everlink_sdk_event** EventChannel broadcast stream.
+  On successful detection we will return the identifying token of the detected device via the **everlink_sdk_event** EventChannel broadcast stream. You will need to call startDetecting() again to detect another audiocode.
 
-  ‍You can now search your database or locally using the returned Everlink unique identifying token to find the detected user. You might have some code like this:
+  ‍You can now search your database or locally using the returned Everlink unique identifying token to find the detected user. 
+  
+  You might have some code like this:
 
   ```sql
   "SELECT * FROM employees WHERE everlink_token = token";
@@ -83,10 +87,10 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 - Send code
   ```dart
   Future<void> everlinkStartEmitting() async {
-    everlinkSdk.startEmitting();
+      await everlinkSdk.startEmitting();
   }
   Future<void> everlinkStopEmitting() async {
-    everlinkSdk.stopEmitting();
+      await everlinkSdk.stopEmitting();
   }
   ```
 
@@ -96,7 +100,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 
   ```dart
   Future<void> everlinkStartEmittingToken(String token) async {
-    everlinkSdk.startEmittingToken(token);
+      await everlinkSdk.startEmittingToken(token);
   }
   ```
 
@@ -106,7 +110,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 
   ```dart
   Future<void> everlinkPlayVolume(double volume, bool loudSpeaker) async {
-    everlinkSdk.playVolume(volume, loudSpeaker);
+      await everlinkSdk.playVolume(volume, loudSpeaker);
   }
   ```
 
@@ -118,7 +122,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 
   ```dart
   Future<void> everlinkNewToken(String date) async {
-    everlinkSdk.newToken(date);
+      await everlinkSdk.newToken(date);
   }
   ```
 
@@ -129,8 +133,8 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 - Downloading tokens (needed if you want the SDK to work offline)
 
   ```dart
-  Future<void> everlinSaveTokens(List<String> tokens) async {
-    everlinkSdk.saveTokens(tokens);
+  Future<void> everlinkSaveTokens(List<String> tokens) async {
+      await everlinkSdk.saveTokens(tokens);
   }
   ```
 
