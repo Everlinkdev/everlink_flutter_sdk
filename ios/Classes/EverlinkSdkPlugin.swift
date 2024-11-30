@@ -42,9 +42,16 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
 
     // Plugin setup
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "everlink_sdk", binaryMessenger: registrar.messenger())
         let instance = EverlinkSdkPlugin()
-        registrar.addMethodCallDelegate(instance, channel: channel)
+        instance.methodChannel = FlutterMethodChannel(name: "everlink_sdk", binaryMessenger: registrar.messenger())
+        instance.eventChannel = FlutterEventChannel(name: "everlink_sdk_event", binaryMessenger: registrar.messenger())
+        
+        if (instance.methodChannel != nil) {
+            registrar.addMethodCallDelegate(instance, channel: instance.methodChannel!)
+        }
+        if (instance.eventChannel != nil) {
+            instance.eventChannel!.setStreamHandler(instance)
+        }
     }
     
     // Handle method calls from Flutter
