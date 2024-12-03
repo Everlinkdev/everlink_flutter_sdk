@@ -1,23 +1,23 @@
 Pod::Spec.new do |s|
   s.name             = 'everlink_sdk'
-  s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.version          = '1.0.1'
+  s.summary          = 'The Everlink SDK for Flutter.'
   s.description      = <<-DESC
-A new Flutter plugin project.
+Allows apps developed using Flutter to use Everlink native SDKs to enable proximity verification.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://everlink.co/'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Everlink' => 'nathan@everlink.co' }
   s.source           = { :path => '.' }
   s.module_map       = 'Classes/EverlinkSdkPlugin.modulemap' 
   s.public_header_files = 'Classes/**/*.h',
   s.source_files = 'Classes/**/*.{h,m,swift}'
   s.dependency 'Flutter'
-  s.dependency 'EverlinkBroadcastSDK', '3.0.0-beta.2'
+  s.dependency 'EverlinkBroadcastSDK', '3.0.0'
   s.platform = :ios, '12.0'
 
   # Swift version
-  s.swift_version = '5.0'
+  s.swift_version = '4.2'
 
   # Exclude unsupported architecture for simulator
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

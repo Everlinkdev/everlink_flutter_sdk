@@ -79,8 +79,14 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
         case createNewTokenMethodKey:
             if let args = call.arguments as? [String: Any],
                let startDate = args[startDateKey] as? String {
-                everlink?.createNewToken(startDate: startDate)
+                do {
+                    try everlink?.createNewToken(startDate: startDate)
                 result(nil)
+                } catch let error as EverlinkError {
+                    result(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: nil))
+                } catch let error {
+                    result(FlutterError(code: "-1", message: error.localizedDescription, details: error))
+                }
             }
             
         case saveTokenMethodKey:
@@ -95,26 +101,20 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
             result(nil)
             
         case startEmittingMethodKey:
-            do {
-                try everlink?.startEmitting()
-                result(nil)
-            } catch let error as EverlinkError {
-                result(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: nil))
-            } catch let error {
-                result(FlutterError(code: "-1", message: error.localizedDescription, details: error))
-            }
+            everlink?.startEmitting() { error in
+               if let error = error {
+                   result(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: error.localizedDescription))
+               }
+           }
             
         case startEmittingTokenMethodKey:
             if let args = call.arguments as? [String: Any],
                let token = args[tokenKey] as? String {
-                do {
-                    try everlink?.startEmittingToken(token: token)
-                    result(nil)
-                } catch let error as EverlinkError {
-                    result(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: nil))
-                } catch let error {
-                    result(FlutterError(code: "-1", message: error.localizedDescription, details: nil))
-                }
+                everlink?.startEmittingToken(token: token) { error in
+                   if let error = error {
+                       result(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: error.localizedDescription))
+                   }
+               }
             }
             
         case stopEmittingMethodKey:
