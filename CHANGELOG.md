@@ -38,3 +38,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed 
 - Using Everlink Android SDK 3.0.4 
+
+## 1.0.2 - 2024-12-03
+
+### Added
+- Support for iOS devices 
+- iOS EverlinkBroadcastSDK 3.0.0
+
+### Changed 
+- README.md changed to include iOS installation instructions 

@@ -1,0 +1,35 @@
+PODS:
+  - everlink_sdk (1.0.1):
+    - EverlinkBroadcastSDK (= 3.0.0)
+    - Flutter
+  - EverlinkBroadcastSDK (3.0.0)
+  - Flutter (1.0.0)
+  - integration_test (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - everlink_sdk (from `.symlinks/plugins/everlink_sdk/ios`)
+  - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+
+SPEC REPOS:
+  trunk:
+    - EverlinkBroadcastSDK
+
+EXTERNAL SOURCES:
+  everlink_sdk:
+    :path: ".symlinks/plugins/everlink_sdk/ios"
+  Flutter:
+    :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+
+SPEC CHECKSUMS:
+  everlink_sdk: d85bc52f7b688adadaa4368600f4025ac5fec460
+  EverlinkBroadcastSDK: 1c5021acb699d1630ae3a6bc2c9481499ab0b4f8
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
+
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+
+COCOAPODS: 1.16.2

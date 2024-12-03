@@ -22,6 +22,17 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
     ```
   *Sync project if required*
 
+### iOS
+- In Terminal, navigate to the project’s ios/ directory
+- Install project dependencies using CocoaPods
+
+    ```console
+      $ cd your_flutter_project/ios/
+    ```
+    ```console
+      $ pod install
+    ```
+ 
 ## Usage
 
 - Import `everlink_sdk.dart` and `everlink_sdk_event.dart`
