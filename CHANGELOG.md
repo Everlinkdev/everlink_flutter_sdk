@@ -47,3 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed 
 - README.md changed to include iOS installation instructions 
+
+## 1.1.0 - 2024-12-03
+- README.md changed to include microphone privacy permission request  

@@ -23,7 +23,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
   *Sync project if required*
 
 ### iOS
-- In Terminal, navigate to the project’s ios/ directory
+- In Terminal, navigate to the project’s `ios/` directory
 - Install project dependencies using CocoaPods
 
     ```console
@@ -32,7 +32,8 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
     ```console
       $ pod install
     ```
- 
+ - In Xcode, edit file `Info.plist` located in Runner > Runner. Add Privacy - Microphone Usage Description in the `info.plist` file for microphone access.
+
 ## Usage
 
 - Import `everlink_sdk.dart` and `everlink_sdk_event.dart`
