@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/services.dart';
-
 import 'everlink_sdk_event.dart';
 
 // Key constants used throughout the code
@@ -52,6 +51,7 @@ class EverlinkSdk {
       printString = 'Everlink plugin successfully setup.';
     } on PlatformException catch (e) {
       printString = "Everlink plugin unable to be setup.: '${e.message}'.";
+      throw Exception("Everlink plugin unable to be setup: ${e.message}");
     }
     log(printString);
   }
@@ -96,6 +96,7 @@ class EverlinkSdk {
       printString = 'Everlink started detecting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start detecting.: '${e.message}'.";
+      throw Exception("Everlink unable to start detecting: ${e.message}");
     }
     log(printString);
   }
@@ -107,6 +108,7 @@ class EverlinkSdk {
       printString = 'Everlink stopped detecting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to stop detecting.: '${e.message}'.";
+      throw Exception("Everlink unable to stop detecting: ${e.message}");
     }
     log(printString);
   }
@@ -119,6 +121,7 @@ class EverlinkSdk {
       printString = 'Everlink created new token.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to create new token.: '${e.message}'.";
+      throw Exception("Everlink unable to create new token: ${e.message}");
     }
     log(printString);
   }
@@ -131,6 +134,7 @@ class EverlinkSdk {
       printString = 'Everlink saved tokens array.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to save tokens array.: '${e.message}'.";
+      throw Exception("Everlink unable to save tokens array: ${e.message}");
     }
     log(printString);
   }
@@ -142,6 +146,7 @@ class EverlinkSdk {
       printString = 'Everlink cleared tokens array.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to clear tokens array.: '${e.message}'.";
+      throw Exception("Everlink unable to clear tokens array: ${e.message}");
     }
     log(printString);
   }
@@ -153,6 +158,7 @@ class EverlinkSdk {
       printString = 'Everlink started emitting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
+      throw Exception("Everlink unable to start emitting: ${e.message}");
     }
     log(printString);
   }
@@ -162,9 +168,10 @@ class EverlinkSdk {
     try {
       await methodChannel
           .invokeMethod<void>(startEmittingTokenMethodKey, {tokenKey: token});
-      printString = 'Everlink started emitting.';
+      printString = 'Everlink started emitting $token.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
+      throw Exception("Everlink unable to start emitting: ${e.message}");
     }
     log(printString);
   }
@@ -176,6 +183,7 @@ class EverlinkSdk {
       printString = 'Everlink stopped emitting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to stop emitting.: '${e.message}'.";
+      throw Exception("Everlink unable to stop emitting: ${e.message}");
     }
     log(printString);
   }
@@ -188,6 +196,7 @@ class EverlinkSdk {
       printString = 'Everlink changed play volume.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to change play volume.: '${e.message}'.";
+      throw Exception("Everlink unable to change play volume: ${e.message}");
     }
     log(printString);
   }

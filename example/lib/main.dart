@@ -47,34 +47,73 @@ class _MyAppState extends State<MyApp> {
       }
     }, onError: (error) {
       log('Error receiving SDK event: $error');
+      showErrorDialog(context, error.toString());
     });
   }
 
-  Future<void> _everlinkStartDetecting() async =>
+  Future<void> _everlinkStartDetecting() async {
+    try {
       await _everlinkSdk.startDetecting();
+    } catch (e) {
+      showErrorDialog(context, e.toString());
+    }
+  }
 
   Future<void> _everlinkStopDetecting() async =>
       await _everlinkSdk.stopDetecting();
 
-  Future<void> _everlinkNewToken(String date) async =>
+  Future<void> _everlinkNewToken(String date) async {
+    try {
       await _everlinkSdk.newToken(date);
+    } catch (e) {
+      showErrorDialog(context, e.toString());
+    }
+  }
 
   Future<void> _everlinkSaveTokens(List<String> tokens) async =>
       await _everlinkSdk.saveTokens(tokens);
 
   Future<void> _everlinkClearTokens() async => await _everlinkSdk.clearTokens();
 
-  Future<void> _everlinkStartEmitting() async =>
+  Future<void> _everlinkStartEmitting() async {
+    try {
       await _everlinkSdk.startEmitting();
+    } catch (e) {
+      showErrorDialog(context, e.toString());
+    }
+  }
 
-  Future<void> _everlinkStartEmittingToken(String token) async =>
+  Future<void> _everlinkStartEmittingToken(String token) async {
+    try {
       await _everlinkSdk.startEmittingToken(token);
+    } catch (e) {
+      showErrorDialog(context, e.toString());
+    }
+  }
 
   Future<void> _everlinkStopEmitting() async =>
       await _everlinkSdk.stopEmitting();
 
   Future<void> _everlinkPlayVolume(double volume, bool loudSpeaker) async =>
       await _everlinkSdk.playVolume(volume, loudSpeaker);
+
+  void showErrorDialog(BuildContext context, String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(errorMessage),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Okay'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   void dispose() {

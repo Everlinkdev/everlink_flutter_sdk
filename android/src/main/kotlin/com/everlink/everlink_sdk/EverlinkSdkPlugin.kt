@@ -127,36 +127,45 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
   // Handle different method calls from Flutter
   override fun onMethodCall(call: MethodCall, result: Result) {
     when (call.method) {
-        setupMethodKey -> {
-          val appID = call.argument<String>(appIDKey)
-          if (appID != null) {
-            setUpEverlinkClass(appID)
-          }
+      setupMethodKey -> {
+        val appID = call.argument<String>(appIDKey)
+        if (appID != null) {
+          setUpEverlinkClass(appID)
+          result.success(null)
+        } else {
+          result.error("INVALID_ARGUMENT", "AppID is required", null)
         }
+      }
 
-        startDetectingMethodKey -> {
-          checkPermission() // Check and request permissions before starting detection
-        }
+      startDetectingMethodKey -> {
+        checkPermission() // Check and request permissions before starting detection
+        result.success(null)
+      }
 
-        stopDetectingMethodKey -> {
-          everlink.stopDetecting() // Stop detecting when the method is called
-        }
+      stopDetectingMethodKey -> {
+        everlink.stopDetecting() // Stop detecting when the method is called
+        result.success(null)
+      }
 
-        createNewTokenMethodKey -> {
-          try {
-            val startDate = call.argument<String>(startDateKey)
-            everlink.createNewToken(startDate) // Create a new token
-          } catch (err: EverlinkError) {
-            result.error(err.code.toString(), err.message.toString(), EVERLINK_ERROR)
-          }
+      createNewTokenMethodKey -> {
+        try {
+          val startDate = call.argument<String>(startDateKey)
+          everlink.createNewToken(startDate) // Create a new token
+          result.success(null)
+        } catch (err: EverlinkError) {
+          result.error(err.code.toString(), err.message.toString(), EVERLINK_ERROR)
         }
+      }
 
-        saveTokenMethodKey -> {
-          val tokens = call.argument<List<String>>(tokensKey)
-          if (tokens != null) {
-            everlink.saveSounds(tokens.toTypedArray()) // Save tokens
-          }
+      saveTokenMethodKey -> {
+        val tokens = call.argument<List<String>>(tokensKey)
+        if (tokens != null) {
+          everlink.saveSounds(tokens.toTypedArray()) // Save tokens
+          result.success(null)
+        } else {
+          result.error("INVALID_ARGUMENT", "Tokens are required", null)
         }
+      }
 
         clearTokensMethodKey -> {
           everlink.clearSounds() // Clear tokens
@@ -165,6 +174,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
         startEmittingMethodKey -> {
           try {
             everlink.startEmitting() // Start emitting sound
+            result.success(null)
           } catch (err: EverlinkError) {
             result.error(err.code.toString(), err.message.toString(), EVERLINK_ERROR)
           }
@@ -173,10 +183,11 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
         startEmittingTokenMethodKey -> {
           try {
             val token = call.argument<String>(tokenKey)
+            result.success(null)
             everlink.startEmittingToken(token)
           } catch (err: EverlinkError) {
             result.error(err.code.toString(), err.message.toString(), EVERLINK_ERROR)
-          }
+      }
         }
 
         stopEmittingMethodKey -> {
@@ -191,7 +202,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
           }
         }
 
-        else -> {
+      else -> {
           result.notImplemented() // Handle unimplemented methods
       }
     }
