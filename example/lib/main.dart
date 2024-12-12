@@ -70,8 +70,13 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<void> _everlinkSaveTokens(List<String> tokens) async =>
+  Future<void> _everlinkSaveTokens(List<String> tokens) async {
+    try {
       await _everlinkSdk.saveTokens(tokens);
+    } catch (e) {
+      showErrorDialog(context, e.toString());
+    }
+  }
 
   Future<void> _everlinkClearTokens() async => await _everlinkSdk.clearTokens();
 
