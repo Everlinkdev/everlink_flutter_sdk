@@ -77,13 +77,13 @@ class EverlinkSdk {
           default:
             break;
         }
-      } on Exception catch (e) {
-        log('Unknown exception: $e');
+      } on PlatformException catch (e) {
+        throw e.toEverlinkError();
       } catch (e) {
-        log('Something really unknown: $e');
+        rethrow;
       }
     }, onError: (dynamic error) {
-      log("Error: $error");
+      throw error;
     });
   }
 
