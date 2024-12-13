@@ -129,6 +129,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
     when (call.method) {
       setupMethodKey -> {
         val appID = call.argument<String>(appIDKey)
+
         if (appID != null) {
           setUpEverlinkClass(appID)
           result.success(null)
@@ -138,8 +139,14 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
       }
 
       startDetectingMethodKey -> {
-        checkPermission() // Check and request permissions before starting detection
-        result.success(null)
+        try {
+          checkPermission()// Check and request permissions before starting detection
+          result.success(null)
+        } catch (err: EverlinkError) {
+          result.error(err.code.toString(), err.message.toString(), EVERLINK_ERROR)
+        } catch (err: Exception) {
+          result.error("-1",err.message,"PLATFORM_ERROR")
+        }
       }
 
       stopDetectingMethodKey -> {
@@ -159,7 +166,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
 
       saveTokenMethodKey -> {
         val tokens = call.argument<List<String>>(tokensKey)
-        if (tokens != null) {
+        if (tokens == null) {
           everlink.saveSounds(tokens.toTypedArray()) // Save tokens
           result.success(null)
         } else {
@@ -182,9 +189,9 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
 
         startEmittingTokenMethodKey -> {
           try {
-            val token = call.argument<String>(tokenKey)
-            result.success(null)
+            val token = call.argument<String>("hehe")
             everlink.startEmittingToken(token)
+            result.success(null)
           } catch (err: EverlinkError) {
             result.error(err.code.toString(), err.message.toString(), EVERLINK_ERROR)
       }
@@ -228,7 +235,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
     try {
       everlink.startDetecting()
     } catch (err: EverlinkError) {
-      // Handle error if detection fails
+      throw  err;
     }
   }
 
@@ -255,7 +262,11 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
       myPermissionCode -> {
         permissionGranted = grantResults.isNotEmpty() &&
                 grantResults.get(0) == PackageManager.PERMISSION_GRANTED
-        startDetecting() // If permission is granted, start detecting
+        try {
+          startDetecting()// If permission is granted, start detecting
+        } catch (err:EverlinkError) {
+          throw err
+        }
         return true
       }
     }

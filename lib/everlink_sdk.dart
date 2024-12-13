@@ -101,13 +101,29 @@ class EverlinkSdk {
   }
 
   Future<void> newToken(String date) async {
-    await _invokeMethodWithErrorHandling<void>(createNewTokenMethodKey, {startDateKey: date});
+    String printString;
+    try {
+      printString = "New Token generated and Saved";
+      await _invokeMethodWithErrorHandling<void>(
+          createNewTokenMethodKey, {startDateKey: date});
+    } on PlatformException catch (e) {
+      printString = "Unable to generate and save New Token";
+      throw e.toEverlinkError();
+    }
     log('Everlink created new token.');
   }
 
   Future<void> saveTokens(List<String> tokens) async {
-    await _invokeMethodWithErrorHandling<void>(saveTokenMethodKey, {tokensKey: tokens});
-    log('Everlink saved tokens array.');
+    String printString;
+    try {
+      printString = "Everlink saved tokens array.";
+      await _invokeMethodWithErrorHandling<void>(
+          saveTokenMethodKey, {tokensKey: tokens});
+    } on PlatformException catch (e) {
+      printString = "Everlink Unable to save tokens";
+      throw e.toEverlinkError();
+    }
+    log(printString);
   }
 
   Future<void> clearTokens() async {
@@ -117,9 +133,8 @@ class EverlinkSdk {
       printString = 'Everlink cleared tokens array.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to clear tokens array.: '${e.message}'.";
-      final errorCode = e.code;
-      final errorMessage = e.message ?? "Unknown error occurred.";
-      throw EverlinkError(errorCode, errorMessage);    }
+      throw e.toEverlinkError();
+    }
     log(printString);
   }
 
@@ -130,9 +145,8 @@ class EverlinkSdk {
       printString = 'Everlink started emitting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
-      final errorCode = e.code;
-      final errorMessage = e.message ?? "Unknown error occurred.";
-      throw EverlinkError(errorCode, errorMessage);    }
+      throw e.toEverlinkError();
+    }
     log(printString);
   }
 
@@ -144,9 +158,8 @@ class EverlinkSdk {
       printString = 'Everlink started emitting $token.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
-      final errorCode = e.code;
-      final errorMessage = e.message ?? "Unknown error occurred.";
-      throw EverlinkError(errorCode, errorMessage);    }
+      throw e.toEverlinkError();
+    }
     log(printString);
   }
 
@@ -157,9 +170,10 @@ class EverlinkSdk {
       printString = 'Everlink stopped emitting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to stop emitting.: '${e.message}'.";
-      final errorCode = e.code;
-      final errorMessage = e.message ?? "Unknown error occurred.";
-      throw EverlinkError(errorCode, errorMessage);    }
+      throw e.toEverlinkError();
+    } catch (e) {
+      printString = "Error: $e";
+    }
     log(printString);
   }
 
@@ -171,24 +185,21 @@ class EverlinkSdk {
       printString = 'Everlink changed play volume.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to change play volume.: '${e.message}'.";
-      final errorCode = e.code;
-      final errorMessage = e.message ?? "Unknown error occurred.";
-      throw EverlinkError(errorCode, errorMessage);    }
+      throw e.toEverlinkError();
+    }
     log(printString);
+  }
+
+  Future<T?> _invokeMethodWithErrorHandling<T>(String method,
+      [dynamic arguments]) async {
+    try {
+      return await methodChannel.invokeMethod<T>(method, arguments);
+    } on PlatformException catch (e) {
+      throw e.toEverlinkError();
+    }
   }
 
   void dispose() {
     _eventController.close();
   }
-  Future<T?> _invokeMethodWithErrorHandling<T>(String method, [dynamic arguments]) async {
-    try {
-      return await methodChannel.invokeMethod<T>(method, arguments);
-    } on PlatformException catch (e) {
-      final errorCode = e.code;
-      final errorMessage = e.message ?? "Unknown error occurred.";
-      throw EverlinkError(errorCode, errorMessage);
-    }
-  }
-
 }
-

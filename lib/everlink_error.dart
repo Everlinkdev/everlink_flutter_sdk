@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 class EverlinkError implements Exception {
   final String errorCode;
   final String message;
@@ -7,5 +9,11 @@ class EverlinkError implements Exception {
   @override
   String toString() {
     return "EverlinkError(code: $errorCode, message: $message)";
+  }
+}
+
+extension ExEverlink on PlatformException {
+  EverlinkError toEverlinkError() {
+    return EverlinkError(code, details ?? "Unknown Error Occurred");
   }
 }

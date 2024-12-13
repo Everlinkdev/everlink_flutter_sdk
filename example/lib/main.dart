@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _everlinkSdk = EverlinkSdk("Your-Key");
+  final _everlinkSdk = EverlinkSdk("com.everlink.everlink_sdk_example");
 
   // Colors
   Color _currentBackgroundColor = const Color.fromRGBO(38, 40, 74, 1.0);
