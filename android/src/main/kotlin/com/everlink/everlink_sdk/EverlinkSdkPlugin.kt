@@ -166,7 +166,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
 
       saveTokenMethodKey -> {
         val tokens = call.argument<List<String>>(tokensKey)
-        if (tokens == null) {
+        if (tokens != null) {
           everlink.saveSounds(tokens.toTypedArray()) // Save tokens
           result.success(null)
         } else {
@@ -189,7 +189,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
 
         startEmittingTokenMethodKey -> {
           try {
-            val token = call.argument<String>("hehe")
+            val token = call.argument<String>(tokenKey)
             everlink.startEmittingToken(token)
             result.success(null)
           } catch (err: EverlinkError) {
