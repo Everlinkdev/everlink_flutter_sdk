@@ -151,6 +151,11 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
   ```
 
   For situations where it is possible to download your users' tokens prior to detecting, we strongly recommend that you do. This will reduce latency and make the verification faster and more reliable.
+
+## Error Handling
+
+The Everlink SDK provides robust error handling using the `EverlinkError` class, which encapsulates the error code and message for easier debugging and consistency. Errors from platform calls are converted to `EverlinkError` using the `toEverlinkError` extension.
+
 #### Example: Handling Errors When Starting Detection
 
 Here’s an example of how to handle errors while calling the `startDetecting` method:
