@@ -91,8 +91,12 @@ class EverlinkSdk {
   Stream<EverlinkSdkEvent> get onEvent => _eventController.stream;
 
   Future<void> startDetecting() async {
-    await _invokeMethodWithErrorHandling<void>(startDetectingMethodKey);
-    log('Everlink started detecting.');
+    try {
+      await _invokeMethodWithErrorHandling<void>(startDetectingMethodKey);
+      log('Everlink started detecting.');
+    } on PlatformException catch (e) {
+      throw e.toEverlinkError();
+    }
   }
 
   Future<void> stopDetecting() async {
@@ -110,7 +114,7 @@ class EverlinkSdk {
       printString = "Unable to generate and save New Token";
       throw e.toEverlinkError();
     }
-    log('Everlink created new token.');
+    log(printString);
   }
 
   Future<void> saveTokens(List<String> tokens) async {
@@ -171,8 +175,6 @@ class EverlinkSdk {
     } on PlatformException catch (e) {
       printString = "Everlink unable to stop emitting.: '${e.message}'.";
       throw e.toEverlinkError();
-    } catch (e) {
-      printString = "Error: $e";
     }
     log(printString);
   }
