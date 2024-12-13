@@ -52,7 +52,7 @@ class EverlinkSdk {
       printString = 'Everlink plugin successfully setup.';
     } on PlatformException catch (e) {
       printString = "Everlink plugin unable to be setup.: '${e.message}'.";
-      throw Exception("Everlink plugin unable to be setup: ${e.message}");
+      throw e.toEverlinkError();
     }
     log(printString);
   }

@@ -151,7 +151,22 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
   ```
 
   For situations where it is possible to download your users' tokens prior to detecting, we strongly recommend that you do. This will reduce latency and make the verification faster and more reliable.
+#### Example: Handling Errors When Starting Detection
 
+Here’s an example of how to handle errors while calling the `startDetecting` method:
+
+```dart
+void startDetection() async {
+  try {
+    await everlinkSdk.startDetecting();
+    print('Detection started successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
 ---
 
 To learn more, **[read this](https://developer.everlink.co/developer-documention/android)**.
