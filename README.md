@@ -158,7 +158,7 @@ The Everlink SDK provides robust error handling using the `EverlinkError` class,
 
 #### Example: Handling Errors When Starting Detection
 
-Here’s an example of how to handle errors while calling the `startDetecting` method:
+Here’s an example of how to handle errors:
 
 
 #### Setup Everlink
