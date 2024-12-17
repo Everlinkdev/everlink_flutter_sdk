@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/services.dart';
-
+import 'everlink_error.dart';
 import 'everlink_sdk_event.dart';
 
 // Key constants used throughout the code
@@ -52,6 +52,7 @@ class EverlinkSdk {
       printString = 'Everlink plugin successfully setup.';
     } on PlatformException catch (e) {
       printString = "Everlink plugin unable to be setup.: '${e.message}'.";
+      throw e.toEverlinkError();
     }
     log(printString);
   }
@@ -76,13 +77,13 @@ class EverlinkSdk {
           default:
             break;
         }
-      } on Exception catch (e) {
-        log('Unknown exception: $e');
+      } on PlatformException catch (e) {
+        throw e.toEverlinkError();
       } catch (e) {
-        log('Something really unknown: $e');
+        rethrow;
       }
     }, onError: (dynamic error) {
-      log("Error: $error");
+      throw error;
     });
   }
 
@@ -90,35 +91,28 @@ class EverlinkSdk {
   Stream<EverlinkSdkEvent> get onEvent => _eventController.stream;
 
   Future<void> startDetecting() async {
-    String printString;
     try {
-      await methodChannel.invokeMethod<void>(startDetectingMethodKey);
-      printString = 'Everlink started detecting.';
+      await _invokeMethodWithErrorHandling<void>(startDetectingMethodKey);
+      log('Everlink started detecting.');
     } on PlatformException catch (e) {
-      printString = "Everlink unable to start detecting.: '${e.message}'.";
+      throw e.toEverlinkError();
     }
-    log(printString);
   }
 
   Future<void> stopDetecting() async {
-    String printString;
-    try {
-      await methodChannel.invokeMethod<void>(stopDetectingMethodKey);
-      printString = 'Everlink stopped detecting.';
-    } on PlatformException catch (e) {
-      printString = "Everlink unable to stop detecting.: '${e.message}'.";
-    }
-    log(printString);
+    await _invokeMethodWithErrorHandling<void>(stopDetectingMethodKey);
+    log('Everlink stopped detecting.');
   }
 
   Future<void> newToken(String date) async {
     String printString;
     try {
-      await methodChannel
-          .invokeMethod<void>(createNewTokenMethodKey, {startDateKey: date});
-      printString = 'Everlink created new token.';
+      printString = "New Token generated and Saved";
+      await _invokeMethodWithErrorHandling<void>(
+          createNewTokenMethodKey, {startDateKey: date});
     } on PlatformException catch (e) {
-      printString = "Everlink unable to create new token.: '${e.message}'.";
+      printString = "Unable to generate and save New Token";
+      throw e.toEverlinkError();
     }
     log(printString);
   }
@@ -126,11 +120,12 @@ class EverlinkSdk {
   Future<void> saveTokens(List<String> tokens) async {
     String printString;
     try {
-      await methodChannel
-          .invokeMethod<void>(saveTokenMethodKey, {tokensKey: tokens});
-      printString = 'Everlink saved tokens array.';
+      printString = "Everlink saved tokens array.";
+      await _invokeMethodWithErrorHandling<void>(
+          saveTokenMethodKey, {tokensKey: tokens});
     } on PlatformException catch (e) {
-      printString = "Everlink unable to save tokens array.: '${e.message}'.";
+      printString = "Everlink Unable to save tokens";
+      throw e.toEverlinkError();
     }
     log(printString);
   }
@@ -142,6 +137,7 @@ class EverlinkSdk {
       printString = 'Everlink cleared tokens array.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to clear tokens array.: '${e.message}'.";
+      throw e.toEverlinkError();
     }
     log(printString);
   }
@@ -153,6 +149,7 @@ class EverlinkSdk {
       printString = 'Everlink started emitting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
+      throw e.toEverlinkError();
     }
     log(printString);
   }
@@ -162,9 +159,10 @@ class EverlinkSdk {
     try {
       await methodChannel
           .invokeMethod<void>(startEmittingTokenMethodKey, {tokenKey: token});
-      printString = 'Everlink started emitting.';
+      printString = 'Everlink started emitting $token.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
+      throw e.toEverlinkError();
     }
     log(printString);
   }
@@ -176,6 +174,7 @@ class EverlinkSdk {
       printString = 'Everlink stopped emitting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to stop emitting.: '${e.message}'.";
+      throw e.toEverlinkError();
     }
     log(printString);
   }
@@ -188,8 +187,18 @@ class EverlinkSdk {
       printString = 'Everlink changed play volume.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to change play volume.: '${e.message}'.";
+      throw e.toEverlinkError();
     }
     log(printString);
+  }
+
+  Future<T?> _invokeMethodWithErrorHandling<T>(String method,
+      [dynamic arguments]) async {
+    try {
+      return await methodChannel.invokeMethod<T>(method, arguments);
+    } on PlatformException catch (e) {
+      throw e.toEverlinkError();
+    }
   }
 
   void dispose() {

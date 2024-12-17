@@ -152,6 +152,155 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
 
   For situations where it is possible to download your users' tokens prior to detecting, we strongly recommend that you do. This will reduce latency and make the verification faster and more reliable.
 
+## Error Handling
+
+The Everlink SDK provides robust error handling using the `EverlinkError` class, which encapsulates the error code and message for easier debugging and consistency. Errors from platform calls are converted to `EverlinkError` using the `toEverlinkError` extension.
+
+#### Example: Handling Errors When Starting Detection
+
+Here’s an example of how to handle errors while calling the `startDetecting` method:
+
+
+#### Setup Everlink
+```dart
+void setupEverlink() async {
+  try {
+    await everlinkSdk.setupEverlink('yourAppID');
+    print('Setup completed successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Start Detecting
+```dart
+void startDetection() async {
+  try {
+    await everlinkSdk.startDetecting();
+    print('Detection started successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Stop Detecting
+```dart
+void stopDetection() async {
+  try {
+    await everlinkSdk.stopDetecting();
+    print('Detection stopped successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Generate New Token
+```dart
+void generateNewToken(String date) async {
+  try {
+    await everlinkSdk.newToken(date);
+    print('New token generated successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Save Tokens
+```dart
+void saveTokens(List<String> tokens) async {
+  try {
+    await everlinkSdk.saveTokens(tokens);
+    print('Tokens saved successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Clear Tokens
+```dart
+void clearTokens() async {
+  try {
+    await everlinkSdk.clearTokens();
+    print('Tokens cleared successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Start Emitting
+```dart
+void startEmitting() async {
+  try {
+    await everlinkSdk.startEmitting();
+    print('Started emitting successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Start Emitting Token
+```dart
+void startEmittingToken(String token) async {
+  try {
+    await everlinkSdk.startEmittingToken(token);
+    print('Started emitting token successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Stop Emitting
+```dart
+void stopEmitting() async {
+  try {
+    await everlinkSdk.stopEmitting();
+    print('Stopped emitting successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+```
+
+#### Change Play Volume
+```dart
+void changeVolume(double volume, bool loudSpeaker) async {
+  try {
+    await everlinkSdk.playVolume(volume, loudSpeaker);
+    print('Volume changed successfully.');
+  } on EverlinkError catch (e) {
+    print('Error occurred: ${e.toString()}');
+  } catch (e) {
+    print('Unexpected error: $e');
+  }
+}
+
+```
 ---
 
 To learn more, **[read this](https://developer.everlink.co/developer-documention/android)**.

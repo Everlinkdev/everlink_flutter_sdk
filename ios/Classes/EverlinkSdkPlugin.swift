@@ -141,14 +141,18 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
         //TODO: Delcare delegate here
         everlink?.delegate = self
     }
-    
+
     // Send events to Flutter
     private func sendEvent(type: String, data: [String: Any]) {
         guard let eventSink = eventSink else { return }
         let event = ["msg_type": type, "data": data] as [String: Any]
-        eventSink(event)
-    }
-    
+
+       // Event is sent on the main thread
+       DispatchQueue.main.async {
+           eventSink(event)
+       }
+   }
+
     // StreamHandler methods
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         self.eventSink = events
@@ -159,54 +163,73 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
         eventSink = nil
         return nil
     }
-    
+
     // Permission handling
     private func checkPermission(completion: @escaping () -> Void) {
         let audioStatus = AVAudioSession.sharedInstance().recordPermission
         switch audioStatus {
         case .granted:
+            DispatchQueue.main.async {
             completion()
+        }
         case .denied:
-            eventSink?(FlutterError(code: "-1", message: "Microphone permission denied", details: nil))
-        case .undetermined:
-            AVAudioSession.sharedInstance().requestRecordPermission { granted in
+        DispatchQueue.main.async {
+            self.eventSink?(FlutterError(code: "-1", message: "Microphone permission denied", details: nil))
+        }
+    case .undetermined:
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            DispatchQueue.main.async {
                 if granted {
                     completion()
                 } else {
                     self.eventSink?(FlutterError(code: "-1", message: "Microphone permission denied", details: nil))
                 }
             }
-        @unknown default:
-            eventSink?(FlutterError(code: "-1", message: "Unknown permission status", details: nil))
         }
-    }
-    
-    // Start detecting audio codes
-    private func startDetecting() {
-        do {
-            try everlink?.startDetecting()
-        } catch let error as EverlinkError {
-            eventSink?(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: nil))
-        }  catch let error {
-            eventSink?(FlutterError(code: "-1", message: "Unknown error", details: error))
+    @unknown default:
+        DispatchQueue.main.async {
+            self.eventSink?(FlutterError(code: "-1", message: "Unknown permission status", details: nil))
         }
     }
 }
 
+// Start detecting audio codes
+private func startDetecting() {
+    do {
+        try everlink?.startDetecting()
+    } catch let error as EverlinkError {
+        DispatchQueue.main.async {
+            self.eventSink?(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: nil))
+        }
+    } catch let error {
+        DispatchQueue.main.async {
+            self.eventSink?(FlutterError(code: "-1", message: "Unknown error", details: error))
+        }
+    }
+}
+    }
+
 // Conform to EverlinkEventDelegate
 extension EverlinkSdkPlugin: EverlinkBroadcastSDK.EverlinkEventDelegate {
-    
-     public func onAudiocodeReceived(token: String) {
 
-         let jsonDataString = "{\"token\":\"\(token)\"}"
-         let jsonString = "{ \"msg_type\":\"detection\", \"data\":\(jsonDataString)}"
-         
-         self.eventSink?(jsonString)
+      public func onAudiocodeReceived(token: String) {
+
+        let jsonDataString = "{\"token\":\"\(token)\"}"
+        let jsonString = "{ \"msg_type\":\"detection\", \"data\":\(jsonDataString)}"
+
+        // Ensure the event is sent on the main thread
+        DispatchQueue.main.async {
+            self.eventSink?(jsonString)
+        }
     }
-    
-     public func onMyTokenGenerated(token: String, oldToken: String) {
-         let jsonDataString = "{\"old_token\": \"\(oldToken)\", \"new_token\": \"\(token)\"}"
-         let jsonString = "{ \"msg_type\":\"generated_token\", \"data\":\(jsonDataString) }"
-         self.eventSink?(jsonString)
+
+    public func onMyTokenGenerated(token: String, oldToken: String) {
+        let jsonDataString = "{\"old_token\": \"\(oldToken)\", \"new_token\": \"\(token)\"}"
+        let jsonString = "{ \"msg_type\":\"generated_token\", \"data\":\(jsonDataString) }"
+
+        // Ensure the event is sent on the main thread
+        DispatchQueue.main.async {
+            self.eventSink?(jsonString)
+        }
     }
 }
