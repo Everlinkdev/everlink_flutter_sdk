@@ -14,6 +14,6 @@ class EverlinkError implements Exception {
 
 extension ExEverlink on PlatformException {
   EverlinkError toEverlinkError() {
-    return EverlinkError(code, details ?? "Unknown Error Occurred");
+    return EverlinkError(code, message ?? "Unknown Error Occurred");
   }
 }

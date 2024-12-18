@@ -149,6 +149,7 @@ class EverlinkSdk {
       printString = 'Everlink started emitting.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
+      log(printString);
       throw e.toEverlinkError();
     }
     log(printString);
@@ -162,6 +163,7 @@ class EverlinkSdk {
       printString = 'Everlink started emitting $token.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to start emitting.: '${e.message}'.";
+      log(printString);
       throw e.toEverlinkError();
     }
     log(printString);
