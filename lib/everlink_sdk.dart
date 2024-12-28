@@ -104,14 +104,14 @@ class EverlinkSdk {
     log('Everlink stopped detecting.');
   }
 
-  Future<void> newToken(String date) async {
+  Future<void> newToken(String date, [int? validityPeriod]) async {
     String printString;
     try {
       printString = "New Token generated and Saved";
       await _invokeMethodWithErrorHandling<void>(
           createNewTokenMethodKey, {startDateKey: date});
     } on PlatformException catch (e) {
-      printString = "Unable to generate and save New Token";
+      printString = "Unable to generate and save new token";
       throw e.toEverlinkError();
     }
     log(printString);

@@ -133,14 +133,14 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
   If you wish to manually generate a new user token. *Otherwise one will be automatically generated.*
 
   ```dart
-  Future<void> everlinkNewToken(String date) async {
-      await everlinkSdk.newToken(date);
+  Future<void> everlinkNewToken(String date, [int? validityPeriod]) async {
+      await everlinkSdk.newToken(date, validityPeriod);
   }
   ```
 
   On successful detection we will return the identifying token of the heard device via the **everlink_sdk_event** EventChannel broadcast stream.
 
-  *Function newToken(startDate) takes a validity start date in the form 'YYYY-MM-DD’. The token will be valid for two weeks after this date. If no validity date is provided then it will be the current date.  Once a device token is expired it will automatically refresh.*
+  *Function newToken(startDate, validityPeriod) takes a validity start date in the form 'YYYY-MM-DD’. If no validity date is provided then it will be the current date. You also can provide an optional token validity period between 1 and 30 days. If no token validity period is provided this will be set to 30 days. Once a device token is expired it will automatically refresh.*
 
 - Downloading tokens (needed if you want the SDK to work offline)
 

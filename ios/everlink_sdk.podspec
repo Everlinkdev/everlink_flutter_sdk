@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'everlink_sdk'
-  s.version          = '1.1.0'
+  s.version          = '2.0.0-beta.1'
   s.summary          = 'The Everlink SDK for Flutter.'
   s.description      = <<-DESC
 Allows apps developed using Flutter to use Everlink native SDKs to enable proximity verification.
@@ -13,7 +13,7 @@ Allows apps developed using Flutter to use Everlink native SDKs to enable proxim
   s.public_header_files = 'Classes/**/*.h',
   s.source_files = 'Classes/**/*.{h,m,swift}'
   s.dependency 'Flutter'
-  s.dependency 'EverlinkBroadcastSDK', '3.0.0'
+  s.dependency 'EverlinkBroadcastSDK', '3.1.1'
   s.platform = :ios, '12.0'
 
   # Swift version

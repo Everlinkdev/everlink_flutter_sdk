@@ -15,6 +15,7 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
     private let appIDKey = "appID"
     private let setupMethodKey = "setup"
     private let startDateKey = "start_date"
+    private let validityPeriodKey = "validity_period"
     private let tokensKey = "tokens"
     private let tokenKey = "token"
     private let volumeKey = "volume"
@@ -80,7 +81,11 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
             if let args = call.arguments as? [String: Any],
                let startDate = args[startDateKey] as? String {
                 do {
-                    try everlink?.createNewToken(startDate: startDate)
+                    if let validityPeriod = args[validityPeriodKey] as? Int {
+                        try everlink?.createNewToken(startDate: startDate, validityPeriod: validityPeriod)
+                    } else {
+                        try everlink?.createNewToken(startDate: startDate)
+                    }
                 result(nil)
                 } catch let error as EverlinkError {
                     result(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: nil))

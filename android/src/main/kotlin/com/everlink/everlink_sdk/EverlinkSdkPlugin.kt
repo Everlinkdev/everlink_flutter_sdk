@@ -23,6 +23,7 @@ private const val everlinkSdkEventKey = "everlink_sdk_event"
 private const val appIDKey = "appID"
 private const val setupMethodKey = "setup"
 private const val startDateKey = "start_date"
+private const val validityPeriodKey = "validity_period"
 private const val tokensKey = "tokens"
 private const val tokenKey = "token"
 private const val volumeKey = "volume"
@@ -157,7 +158,12 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
       createNewTokenMethodKey -> {
         try {
           val startDate = call.argument<String>(startDateKey)
-          everlink.createNewToken(startDate) // Create a new token
+          val validityPeriod = call.argument<Int>(validityPeriodKey)
+          if (validityPeriod != null) { // Create a new token
+            everlink.createNewToken(startDate, validityPeriod)
+          } else {
+            everlink.createNewToken(startDate)
+          }
           result.success(null)
         } catch (err: EverlinkError) {
           result.error(err.code.toString(), err.message.toString(), EVERLINK_ERROR)

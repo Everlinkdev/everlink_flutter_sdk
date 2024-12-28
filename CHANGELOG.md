@@ -50,3 +50,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.1.0 - 2024-12-03
 - README.md changed to include microphone privacy permission request  
+
+## 2.0.0-beta.1 - 2024-12-23
+
+### Changed 
+- Moved to Everlink Android SDK 3.1.0
+- Moved to iOS EverlinkBroadcastSDK 3.1.1 
+- README.md changed to include error handling code 
+
+### Added
+- Improved error handling through the everlink_error class
+- A validity period can now be set when creating a token 
+
+### Fixed
+- Token return error fixed

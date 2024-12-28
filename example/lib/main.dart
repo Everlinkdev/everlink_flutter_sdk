@@ -62,9 +62,9 @@ class _MyAppState extends State<MyApp> {
   Future<void> _everlinkStopDetecting() async =>
       await _everlinkSdk.stopDetecting();
 
-  Future<void> _everlinkNewToken(String date) async {
+  Future<void> _everlinkNewToken(String date, [int? validityPeriod]) async {
     try {
-      await _everlinkSdk.newToken(date);
+      await _everlinkSdk.newToken(date, validityPeriod);
     } catch (e) {
       showErrorDialog(context, e.toString());
     }
