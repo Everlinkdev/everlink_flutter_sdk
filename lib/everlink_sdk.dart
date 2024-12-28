@@ -155,7 +155,6 @@ class EverlinkSdk {
       log(printString);
       throw e.toEverlinkError();
     }
-    log(printString);
   }
 
   Future<void> startEmittingToken(String token) async {
@@ -169,7 +168,6 @@ class EverlinkSdk {
       log(printString);
       throw e.toEverlinkError();
     }
-    log(printString);
   }
 
   Future<void> stopEmitting() async {

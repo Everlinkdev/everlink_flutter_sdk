@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:everlink_sdk/everlink_sdk.dart';
 import 'package:everlink_sdk/everlink_sdk_event.dart';
+import 'package:everlink_sdk/everlink_error.dart';
 import 'package:flutter/material.dart';
 
 //Small demo showing how to use the Everlink SDK.
@@ -65,6 +66,8 @@ class _MyAppState extends State<MyApp> {
   Future<void> _everlinkNewToken(String date, [int? validityPeriod]) async {
     try {
       await _everlinkSdk.newToken(date, validityPeriod);
+    } on EverlinkError catch (e) {
+      showErrorDialog(context, e.toString());
     } catch (e) {
       showErrorDialog(context, e.toString());
     }
