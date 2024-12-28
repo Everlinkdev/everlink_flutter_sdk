@@ -51,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 1.1.0 - 2024-12-03
 - README.md changed to include microphone privacy permission request  
 
-## 2.0.0-beta.1 - 2024-12-23
+## 2.0.0 - 2024-12-23
 
 ### Changed 
 - Moved to Everlink Android SDK 3.1.0

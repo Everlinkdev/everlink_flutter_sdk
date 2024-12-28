@@ -303,4 +303,5 @@ void changeVolume(double volume, bool loudSpeaker) async {
 ```
 ---
 
-To learn more, **[read this](https://developer.everlink.co/developer-documention/android)**.
+To learn more, **[general documentation](https://developer.everlink.co/developer-documention/android)**,
+**[error codes documentation](https://everlinkdev.github.io/everlink-error-handling/)**.

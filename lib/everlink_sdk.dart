@@ -12,6 +12,7 @@ const everlinkSdkEventKey = "everlink_sdk_event";
 const appIDKey = "appID";
 const setupMethodKey = "setup";
 const startDateKey = "start_date";
+const validityPeriodKey = "validity_period";
 const tokensKey = "tokens";
 const tokenKey = "token";
 const volumeKey = "volume";
@@ -108,13 +109,13 @@ class EverlinkSdk {
     String printString;
     try {
       printString = "New Token generated and Saved";
-      await _invokeMethodWithErrorHandling<void>(
-          createNewTokenMethodKey, {startDateKey: date});
+      await _invokeMethodWithErrorHandling<void>(createNewTokenMethodKey,
+          {startDateKey: date, validityPeriodKey: validityPeriod});
     } on PlatformException catch (e) {
       printString = "Unable to generate and save new token";
+      log(printString);
       throw e.toEverlinkError();
     }
-    log(printString);
   }
 
   Future<void> saveTokens(List<String> tokens) async {
@@ -125,6 +126,7 @@ class EverlinkSdk {
           saveTokenMethodKey, {tokensKey: tokens});
     } on PlatformException catch (e) {
       printString = "Everlink Unable to save tokens";
+      log(printString);
       throw e.toEverlinkError();
     }
     log(printString);
@@ -137,6 +139,7 @@ class EverlinkSdk {
       printString = 'Everlink cleared tokens array.';
     } on PlatformException catch (e) {
       printString = "Everlink unable to clear tokens array.: '${e.message}'.";
+      log(printString);
       throw e.toEverlinkError();
     }
     log(printString);

@@ -86,13 +86,13 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
                     } else {
                         try everlink?.createNewToken(startDate: startDate)
                     }
-                result(nil)
                 } catch let error as EverlinkError {
                     result(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: nil))
                 } catch let error {
                     result(FlutterError(code: "-1", message: error.localizedDescription, details: error))
                 }
             }
+            result(nil)
             
         case saveTokenMethodKey:
             if let args = call.arguments as? [String: Any],
@@ -111,6 +111,7 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
                    result(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: error.localizedDescription))
                }
            }
+            result(nil)
             
         case startEmittingTokenMethodKey:
             if let args = call.arguments as? [String: Any],
@@ -121,6 +122,7 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
                    }
                }
             }
+            result(nil)
             
         case stopEmittingMethodKey:
             everlink?.stopEmitting()
