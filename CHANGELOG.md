@@ -11,14 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Everlink Flutter plugin
 - Everlink Android SDK 3.0.0-A1
 - Everlink Android event listeners 
-- Example demo calliing the plugin's functions
+- Example demo using the plugin's functions
 
 ## 0.1.0-beta - 2024-09-29
 
 ### Changed 
 - Using a Stream instead of exposing EventChannel for SDK event handling
 - README.md example guide changed to reflect above change
-- Everlink Android SDK 3.0.1  
+- Moved to Everlink Android SDK 3.0.1  
 
 ## 1.0.0-beta - 2024-09-30
 
@@ -37,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 1.0.1 - 2024-11-05
 
 ### Changed 
-- Using Everlink Android SDK 3.0.4 
+- Moved to Everlink Android SDK 3.0.4 
 
 ## 1.1.0-beta - 2024-12-03
 
@@ -49,6 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README.md changed to include iOS installation instructions 
 
 ## 1.1.0 - 2024-12-03
+
+### Changed 
 - README.md changed to include microphone privacy permission request  
 
 ## 2.0.0 - 2024-12-23
@@ -64,3 +66,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Token return error fixed
+
+## 2.0.1 - 2025-04-10
+
+### Changed 
+- Moved to Everlink Android SDK 3.2.1
+- Moved to iOS EverlinkBroadcastSDK 3.2.2 
+- Token return bug fix

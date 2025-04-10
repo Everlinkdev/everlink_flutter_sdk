@@ -41,6 +41,7 @@ Allows apps developed using Flutter to use Everlink’s native SDKs to enable pr
    ```dart
    import 'package:everlink_sdk/everlink_sdk.dart';
    import 'package:everlink_sdk/everlink_sdk_event.dart';
+   import 'package:everlink_sdk/everlink_error.dart';
    ```
 
 - Initialize EverlinkSdk class passing it your **appID key**

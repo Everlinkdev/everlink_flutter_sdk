@@ -13,7 +13,7 @@ Allows apps developed using Flutter to use Everlink native SDKs to enable proxim
   s.public_header_files = 'Classes/**/*.h',
   s.source_files = 'Classes/**/*.{h,m,swift}'
   s.dependency 'Flutter'
-  s.dependency 'EverlinkBroadcastSDK', '3.2.1'
+  s.dependency 'EverlinkBroadcastSDK', '3.2.2'
   s.platform = :ios, '12.0'
 
   # Swift version
