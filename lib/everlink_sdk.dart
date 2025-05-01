@@ -22,6 +22,7 @@ const msgTypeKey = 'msg_type';
 const dataKey = 'data';
 const oldTokenKey = 'old_token';
 const newTokenKey = 'new_token';
+const loopingEnabledKey = 'looping_enabled';
 
 // Method key constants to handle specific method calls
 const startDetectingMethodKey = "startDetecting";
@@ -91,9 +92,10 @@ class EverlinkSdk {
   // Public API to get the event stream
   Stream<EverlinkSdkEvent> get onEvent => _eventController.stream;
 
-  Future<void> startDetecting() async {
+  Future<void> startDetecting([bool? isLoopingEnabled]) async {
     try {
-      await _invokeMethodWithErrorHandling<void>(startDetectingMethodKey);
+      await _invokeMethodWithErrorHandling<void>(
+          startDetectingMethodKey, {loopingEnabledKey: isLoopingEnabled});
       log('Everlink started detecting.');
     } on PlatformException catch (e) {
       throw e.toEverlinkError();

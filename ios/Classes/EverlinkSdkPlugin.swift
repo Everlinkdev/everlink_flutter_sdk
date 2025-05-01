@@ -20,6 +20,7 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
     private let tokenKey = "token"
     private let volumeKey = "volume"
     private let loudSpeakerKey = "loudSpeaker"
+    private let loopingEnabledKey = "looping_enabled"
     private let startDetectingMethodKey = "startDetecting"
     private let stopDetectingMethodKey = "stopDetecting"
     private let createNewTokenMethodKey = "createNewToken"
@@ -40,6 +41,7 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
     private var everlink: Everlink?
 
     private var isPermissionGranted: Bool = false
+    private var loopingEnabled: Bool = false
 
     // Plugin setup
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -69,6 +71,9 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
             
         case startDetectingMethodKey:
             checkPermission {
+                if let args = call.arguments as? [String: Any] {
+                    self.loopingEnabled = args[self.loopingEnabledKey] as? Bool ?? false
+                }
                 self.startDetecting()
             }
             result(nil)
@@ -203,7 +208,7 @@ import EverlinkBroadcastSDK.ObjCErrorHandle
 // Start detecting audio codes
 private func startDetecting() {
     do {
-        try everlink?.startDetecting()
+        try everlink?.startDetecting(isLoopingEnabled: self.loopingEnabled)
     } catch let error as EverlinkError {
         DispatchQueue.main.async {
             self.eventSink?(FlutterError(code: String(error.getErrorCode()), message: error.getErrorMessage(), details: nil))

@@ -71,5 +71,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed 
 - Moved to Everlink Android SDK 3.2.1
-- Moved to iOS EverlinkBroadcastSDK 3.2.2 
-- Token return bug fix
+- Moved to iOS EverlinkBroadcastSDK 3.2.2
+
+### Fixed
+- Token bug fix
+
+## 2.0.2 - 2025-05-01
+
+### Changed 
+- Moved to Everlink Android SDK 3.2.2
+- Moved to iOS EverlinkBroadcastSDK 3.2.3 
+
+### Fixed
+iOS audio session bug
+
+### Added
+- Overriding SDK startDetecting function, allowing optional argument

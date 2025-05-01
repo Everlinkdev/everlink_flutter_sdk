@@ -28,6 +28,7 @@ private const val tokensKey = "tokens"
 private const val tokenKey = "token"
 private const val volumeKey = "volume"
 private const val loudSpeakerKey = "loudSpeaker"
+private const val loopingEnabledKey = "looping_enabled"
 
 // Method key constants to handle specific functionality in the plugin
 private const val startDetectingMethodKey = "startDetecting"
@@ -45,6 +46,7 @@ private const val EVERLINK_ERROR = "Everlink Error"
 
 // Permission code for requesting microphone permission
 private const val myPermissionCode = 802
+
 
 /** EverlinkSdkPlugin */
 class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware, PluginRegistry.RequestPermissionsResultListener {
@@ -68,6 +70,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
   // Control flags and permission codes
   private var everlinkClassSet: Boolean = false
   private var permissionGranted: Boolean = false
+  private var loopingEnabled: Boolean = false
 
   // Method to set up channels when the plugin is attached to the Flutter engine
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -141,6 +144,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
 
       startDetectingMethodKey -> {
         try {
+          loopingEnabled = call.argument<Boolean>(loopingEnabledKey) ?: false
           checkPermission()// Check and request permissions before starting detection
           result.success(null)
         } catch (err: EverlinkError) {
@@ -239,7 +243,7 @@ class EverlinkSdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHa
   // Helper function to start detecting audio codes
   private fun startDetecting() {
     try {
-      everlink.startDetecting()
+      everlink.startDetecting(loopingEnabled)
     } catch (err: EverlinkError) {
       throw  err;
     }

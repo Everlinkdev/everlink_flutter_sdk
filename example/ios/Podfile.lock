@@ -1,8 +1,8 @@
 PODS:
-  - everlink_sdk (2.0.0):
-    - EverlinkBroadcastSDK (= 3.2.2)
+  - everlink_sdk (2.0.2):
+    - EverlinkBroadcastSDK (= 3.2.3)
     - Flutter
-  - EverlinkBroadcastSDK (3.2.2)
+  - EverlinkBroadcastSDK (3.2.3)
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
@@ -25,8 +25,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
-  everlink_sdk: 96ed7827521a80478e9eecc4a9a4ffc7e50c2d41
-  EverlinkBroadcastSDK: dc0aeedbe3b268757632b1c1e7a8acf24694ebb6
+  everlink_sdk: d1d394f2cf094802b491d638b6a5acd094eef490
+  EverlinkBroadcastSDK: 7a7220bfb0eae40d64a0f95ed40a96fcf432eeea
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
 
